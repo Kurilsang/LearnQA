@@ -1,0 +1,70 @@
+{
+  "allButtons": [
+    {
+      "text": "此处不懂？截图提问",
+      "tag": "div",
+      "cssSelector": ".right-btns",
+      "rect": "178x36"
+    },
+    {
+      "text": "此处不懂？截图提问",
+      "tag": "div",
+      "cssSelector": ".ask-btn-box",
+      "rect": "176x34"
+    },
+    {
+      "text": "",
+      "tag": "i",
+      "cssSelector": ".btn-icon",
+      "rect": "20x20"
+    },
+    {
+      "text": "1 / 1",
+      "tag": "div",
+      "cssSelector": ".btnWrap",
+      "rect": "982x45"
+    },
+    {
+      "text": "重播\n\n点赞\n\n收藏",
+      "tag": "div",
+      "cssSelector": ".btn_box",
+      "rect": "192x52"
+    },
+    {
+      "text": "上一节\n继续学习下一节",
+      "tag": "div",
+      "cssSelector": ".static-btns-group",
+      "rect": "308x52"
+    },
+    {
+      "text": "上一节",
+      "tag": "button",
+      "cssSelector": ".el-button.btn-left.el-tooltip__trigger.el-tooltip__trigger",
+      "rect": "80x36"
+    },
+    {
+      "text": "继续学习下一节",
+      "tag": "button",
+      "cssSelector": ".el-button.el-button--gradient.btn-right.el-tooltip__trigger.el-tooltip__trigger",
+      "rect": "216x36"
+    },
+    {
+      "text": "",
+      "tag": "div",
+      "cssSelector": ".PModelBtn.new-pmodel-btn",
+      "rect": "30x75"
+    }
+  ],
+  "allFrames": [
+    {
+      "src": "https://ecw.cycore.cn/bubbty-editor/497fded5-19d6-492c-97a0-4abe77eb731a",
+      "id": "",
+      "className": "pptIframe"
+    },
+    {
+      "src": "https://icourse.fifedu.com/istp-learning-companions/?digitalHumanId=cc3d495fa26e4f5abc598ff1e60103c2&courseId=0bbe8331f3ae41d4ade3618c31e5c0d9",
+      "id": "",
+      "className": "miframe"
+    }
+  ]
+}

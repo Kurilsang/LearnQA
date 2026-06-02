@@ -1,0 +1,883 @@
+{
+  "resource_list": {},
+  "resource_nav": {
+    "prevButtons": [
+      {
+        "tag": "DIV",
+        "class": "static-btns-group",
+        "text": "上一节\n继续学习下一节"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "el-button btn-left el-tooltip__trigger el-tooltip__trigger",
+        "text": "上一节"
+      }
+    ],
+    "nextButtons": [
+      {
+        "tag": "DIV",
+        "class": "static-btns-group",
+        "text": "上一节\n继续学习下一节"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "el-button el-button--gradient btn-right el-tooltip__trigger el-tooltip__trigger",
+        "text": "继续学习下一节"
+      }
+    ],
+    "progressIndicators": [],
+    "indicators": []
+  },
+  "pptx": {
+    "pageButtons": [
+      {
+        "tag": "DIV",
+        "class": "right-btns",
+        "text": "此处不懂？截图提问"
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow is-open",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "SPAN",
+        "class": "left-arrow dian",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "class": "list-right-btn",
+        "text": "展开"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "el-button btn-left el-tooltip__trigger el-tooltip__trigger",
+        "text": "上一节"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "el-button el-button--gradient btn-right el-tooltip__trigger el-tooltip__trigger",
+        "text": "继续学习下一节"
+      }
+    ],
+    "pageNumbers": [],
+    "pptContainers": [
+      {
+        "tag": "DIV",
+        "class": "pptWrap",
+        "src": "",
+        "rect": "998.4000244140625x637.4000244140625"
+      },
+      {
+        "tag": "DIV",
+        "class": "pptContainer",
+        "src": "",
+        "rect": "998.4000244140625x637.4000244140625"
+      },
+      {
+        "tag": "IFRAME",
+        "class": "pptIframe",
+        "src": "https://ecw.cycore.cn/bubbty-editor/72c6f0ce-2f25-47fa-9e74-d2e68dbc010a",
+        "rect": "998.4000244140625x637.4000244140625"
+      },
+      {
+        "tag": "IFRAME",
+        "class": "miframe",
+        "src": "https://icourse.fifedu.com/istp-learning-companions/?digitalHumanId=cc3d495fa26e4f5abc598ff1e60103c2",
+        "rect": "399.20001220703125x1080"
+      }
+    ],
+    "iframeCount": 2
+  },
+  "html_pdf": {
+    "scrollContainers": [
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar row-table",
+        "id": "",
+        "scrollHeight": 6992,
+        "clientHeight": 880,
+        "scrollTop": 160,
+        "size": "356x880"
+      }
+    ],
+    "progressBars": [
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar page-scroll",
+        "text": "金融大数据\n/\n常见数据挖掘算法\n\n关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结",
+        "size": "1920x1080"
+      },
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar__wrap el-scrollbar__wrap--hidden-default",
+        "text": "金融大数据\n/\n常见数据挖掘算法\n\n关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结",
+        "size": "1920x1080"
+      },
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar__view",
+        "text": "金融大数据\n/\n常见数据挖掘算法\n\n关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结",
+        "size": "1920x1080"
+      },
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar app-warp",
+        "text": "金融大数据\n/\n常见数据挖掘算法\n\n关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结",
+        "size": "1920x1080"
+      },
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar__wrap el-scrollbar__wrap--hidden-default",
+        "text": "金融大数据\n/\n常见数据挖掘算法\n\n关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结",
+        "size": "1920x1080"
+      },
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar__view",
+        "text": "金融大数据\n/\n常见数据挖掘算法\n\n关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结",
+        "size": "1920x1080"
+      },
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar main-warp",
+        "text": "关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结\n重难点\n关联分析与推荐系统(0)",
+        "size": "1528x1004"
+      },
+      {
+        "tag": "DIV",
+        "class": "main-scrollview el-scrollbar__wrap el-scrollbar__wrap--hidden-default",
+        "text": "关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结\n重难点\n关联分析与推荐系统(0)",
+        "size": "1528x1004"
+      },
+      {
+        "tag": "DIV",
+        "class": "el-scrollbar__view",
+        "text": "关联分析与推荐系统.pptx\n\n此处不懂？截图提问\n知识点\n总结\n重难点\n关联分析与推荐系统(0)",
+        "size": "1480x988"
+      },
+      {
+        "tag": "DIV",
+        "class": "el-tabs__active-bar is-top",
+        "text": "",
+        "size": "54x3"
+      }
+    ],
+    "pdfElements": [],
+    "iframes": [
+      {
+        "src": "https://ecw.cycore.cn/bubbty-editor/72c6f0ce-2f25-47fa-9e74-d2e68dbc010a",
+        "class": "pptIframe",
+        "id": ""
+      },
+      {
+        "src": "https://icourse.fifedu.com/istp-learning-companions/?digitalHumanId=cc3d495fa26e4f5abc598ff1e60103c2&courseId=0bbe8331f3ae41d4ade3618c31e5c0d9",
+        "class": "miframe",
+        "id": ""
+      }
+    ]
+  },
+  "video": {
+    "videos": [],
+    "playerContainers": [
+      {
+        "tag": "DIV",
+        "class": "videoWrap",
+        "id": "",
+        "size": "1000x912"
+      },
+      {
+        "tag": "DIV",
+        "class": "videoBox",
+        "id": "",
+        "size": "1000x639"
+      }
+    ],
+    "playButtons": [],
+    "progressBars": [],
+    "timeDisplays": []
+  },
+  "quiz": {
+    "questionContainers": [],
+    "questionTexts": [],
+    "options": [],
+    "optionsAll": [],
+    "submitButtons": []
+  }
+}
