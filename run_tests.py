@@ -8,7 +8,6 @@ import asyncio
 import os
 import sys
 import time
-import traceback
 from datetime import datetime
 
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
@@ -22,6 +21,7 @@ from utils.reporter import TestReport, TestSuite
 
 logger = TestLogger()
 report = TestReport()
+site_config = config.SITE_CONFIG
 
 
 class TestRunner:
@@ -31,8 +31,8 @@ class TestRunner:
 
     async def run(self):
         logger.info("=" * 60)
-        logger.info("在线课程页面自动化测试脚本 v2.0")
-        logger.info("使用 Playwright 实现教育网站页面自动化遍历与功能校验")
+        logger.info("在线课程页面自动化测试脚本 v3.0")
+        logger.info(f"目标站点: {site_config.name}")
         logger.info("=" * 60)
 
         suite = report.add_suite("登录功能测试")
@@ -144,7 +144,7 @@ class TestRunner:
             browser = await p.chromium.launch(headless=config.HEADLESS, args=["--disable-blink-features=AutomationControlled"])
             context = await browser.new_context(viewport={"width": 1920, "height": 1080})
             page = await context.new_page()
-            login = LoginPage(page)
+            login = LoginPage(page, site_config)
 
             async def test_page_load():
                 await login.navigate(config.BASE_URL)
@@ -154,13 +154,13 @@ class TestRunner:
 
             async def test_elements():
                 await login.navigate(config.BASE_URL)
-                assert await page.locator('input[name="user"]').count() > 0, "未找到账号输入框"
-                assert await page.locator("#passWord").count() > 0, "未找到密码输入框"
+                assert await login.el("username_input").count() > 0, "未找到账号输入框"
+                assert await login.el("password_input").count() > 0, "未找到密码输入框"
 
             async def test_fill():
                 await login.navigate(config.BASE_URL)
                 await login.fill_username(config.USERNAME)
-                val = await page.locator('input[name="user"]').input_value()
+                val = await login.el("username_input").input_value()
                 assert val == config.USERNAME, "账号输入不匹配"
 
             async def test_full_login():
@@ -179,8 +179,8 @@ class TestRunner:
             browser = await p.chromium.launch(headless=config.HEADLESS, args=["--disable-blink-features=AutomationControlled"])
             context = await browser.new_context(viewport={"width": 1920, "height": 1080})
             page = await context.new_page()
-            login = LoginPage(page)
-            course = CoursePage(page)
+            login = LoginPage(page, site_config)
+            course = CoursePage(page, site_config)
 
             await login.navigate(config.BASE_URL)
             ok = await login.do_login(config.USERNAME, config.PASSWORD, config.COURSE_URL)
@@ -226,9 +226,9 @@ class TestRunner:
             browser = await p.chromium.launch(headless=config.HEADLESS, args=["--disable-blink-features=AutomationControlled"])
             context = await browser.new_context(viewport={"width": 1920, "height": 1080})
             page = await context.new_page()
-            login = LoginPage(page)
-            course = CoursePage(page)
-            content = ContentPage(page)
+            login = LoginPage(page, site_config)
+            course = CoursePage(page, site_config)
+            content = ContentPage(page, site_config)
 
             await login.navigate(config.BASE_URL)
             ok = await login.do_login(config.USERNAME, config.PASSWORD, config.COURSE_URL)
@@ -301,8 +301,8 @@ class TestRunner:
             browser = await p.chromium.launch(headless=config.HEADLESS, args=["--disable-blink-features=AutomationControlled"])
             context = await browser.new_context(viewport={"width": 1920, "height": 1080})
             page = await context.new_page()
-            login = LoginPage(page)
-            course = CoursePage(page)
+            login = LoginPage(page, site_config)
+            course = CoursePage(page, site_config)
             errors = []
 
             async def test_console_error():

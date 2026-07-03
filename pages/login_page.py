@@ -1,31 +1,32 @@
 import asyncio
 from playwright.async_api import Page
+from core.base_page import BasePage
 
 
-class LoginPage:
-    def __init__(self, page: Page):
-        self.page = page
+class LoginPage(BasePage):
+    page_key = "login_page"
 
-    async def navigate(self, url: str) -> None:
-        await self.page.goto(url, wait_until="networkidle", timeout=60000)
+    async def navigate(self, url: str = None) -> None:
+        target = url or self.site.get_page_url("login_page")
+        await self.page.goto(target, wait_until="networkidle", timeout=60000)
         await asyncio.sleep(3)
 
     async def fill_username(self, username: str) -> None:
-        el = self.page.locator('input[name="user"]')
+        el = self.el("username_input")
         await el.wait_for(state="visible", timeout=10000)
         await el.click()
         await el.fill("")
         await el.type(username, delay=30)
 
     async def fill_password(self, password: str) -> None:
-        el = self.page.locator("#passWord")
+        el = self.el("password_input")
         await el.wait_for(state="visible", timeout=10000)
         await el.click()
         await el.fill("")
         await el.type(password, delay=30)
 
     async def click_login(self) -> None:
-        btn = self.page.locator("button.cursor_p").get_by_text("登录", exact=True)
+        btn = self.el("login_button").get_by_text("登录", exact=True)
         await btn.wait_for(state="visible", timeout=10000)
         await btn.click()
 
@@ -42,7 +43,7 @@ class LoginPage:
         return any(kw in text for kw in ("课程", "学习", "章节", "自适应"))
 
     async def get_login_error(self) -> str:
-        error = self.page.locator(".error-msg, .el-message--error, [class*='error']").first
+        error = self.el("error_selector").first
         if await error.count() > 0:
             return await error.inner_text()
         return ""

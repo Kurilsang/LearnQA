@@ -11,6 +11,8 @@ from pages.course_page import CoursePage
 from pages.content_page import ContentPage
 from utils.logger import TestLogger
 
+site_config = config.SITE_CONFIG
+
 logger = TestLogger()
 
 
@@ -49,17 +51,17 @@ async def browser_page():
 
 @pytest_asyncio.fixture(scope="function")
 async def login_page(browser_page):
-    return LoginPage(browser_page)
+    return LoginPage(browser_page, site_config)
 
 
 @pytest_asyncio.fixture(scope="function")
 async def course_page(browser_page):
-    return CoursePage(browser_page)
+    return CoursePage(browser_page, site_config)
 
 
 @pytest_asyncio.fixture(scope="function")
 async def content_page(browser_page):
-    return ContentPage(browser_page)
+    return ContentPage(browser_page, site_config)
 
 
 @pytest_asyncio.fixture(scope="function")

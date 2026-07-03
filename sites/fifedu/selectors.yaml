@@ -1,0 +1,256 @@
+site:
+  name: "FIF教育平台"
+  domain: "fifedu.com"
+
+pages:
+  login_page:
+    url: "https://www.fifedu.com/iplat/fifLogin/index.html?v=5.4.4"
+    elements:
+      username_input: 'input[name="user"]'
+      password_input: '#passWord'
+      login_button: 'button.cursor_p'
+      login_button_text: "登录"
+      error_selector: ".error-msg, .el-message--error, [class*='error']"
+
+  course_page:
+    elements:
+      chapter_expand_arrow: '.left-arrow:not(.is-open):not(.dian)'
+      chapter_node: '.index-tree-node'
+      tree_node_name: '.tree-node-name'
+      tree_name_title: '.tree-name-title'
+      aside_row: '.aside-row'
+      icon_finished: '.icon-isfinished'
+      study_progress: '.study-progress-wrapper'
+      current_study_icon: '.current-study-icon'
+      activity_list_item: '.activity-list-item'
+      show_line_text: '.show-line-text'
+      activity_status: '.activityStatus span'
+      is_finished: '.is-finished'
+      return_icon: '.return-icon'
+      level_1_class: 'level_1'
+      no_child_class: 'no-child'
+    groups:
+      back_button:
+        - '.return-icon'
+        - "text=返回"
+        - "button:has-text('返回')"
+    scripts:
+      count_collapsed_arrows: |
+        () => document.querySelectorAll('.left-arrow:not(.is-open):not(.dian)').length
+      scan_chapters: |
+        () => {
+          const nodes = document.querySelectorAll('.index-tree-node');
+          const results = [];
+          nodes.forEach((node, index) => {
+            const tn = node.querySelector('.tree-node-name');
+            if (!tn) return;
+            const hasChild = node.querySelector('.index-tree-node') !== null;
+            const done = tn.querySelector('.icon-isfinished') !== null;
+            const prog = tn.querySelector('.study-progress-wrapper') !== null;
+            const cur = tn.querySelector('.current-study-icon') !== null;
+            const pad = parseInt(window.getComputedStyle(tn).paddingLeft) || 0;
+            const level = Math.round(pad / 20) + 1;
+            const isLevel1 = tn.classList.contains('level_1');
+            const noChild = tn.classList.contains('no-child');
+            node.setAttribute('data-chapter-id', String(index));
+            results.push({
+              idx: index, name: tn.innerText.trim(), level, isLevel1,
+              isLeaf: !hasChild || noChild, done, prog, cur,
+              sel: `.index-tree-node[data-chapter-id="${index}"] > .aside-row > .tree-name-title > .tree-node-name`,
+            });
+          });
+          return results;
+        }
+      scan_resources: |
+        () => {
+          const items = document.querySelectorAll('.activity-list-item');
+          return Array.from(items).map((item, i) => {
+            const nameEl = item.querySelector('.show-line-text');
+            const name = nameEl ? nameEl.innerText.trim() : '';
+            const statuses = item.querySelectorAll('.activityStatus span');
+            const typeText = statuses.length > 0 ? statuses[0].innerText.trim() : '';
+            const stateText = statuses.length > 1 ? statuses[1].innerText.trim() : '';
+            const isActive = item.classList.contains('is-active');
+            const isFinish = item.querySelector('.is-finished') !== null;
+            item.setAttribute('data-resource-id', String(i));
+            return {
+              idx: i, name, type: typeText, state: stateText, isActive, isFinish,
+              sel: `.activity-list-item[data-resource-id="${i}"]`,
+            };
+          });
+        }
+      check_resource_finished: |
+        (idx) => {
+          const items = document.querySelectorAll('.activity-list-item');
+          const el = items[idx];
+          if (!el) return false;
+          return el.querySelector('.is-finished') !== null
+            || (el.querySelector('.activityStatus:last-child span')
+              && el.querySelector('.activityStatus:last-child span').innerText.includes('已完成'));
+        }
+      check_resource_state: |
+        (idx) => {
+          const items = document.querySelectorAll('.activity-list-item');
+          const el = items[idx];
+          if (!el) return '';
+          const spans = el.querySelectorAll('.activityStatus span');
+          return spans.length > 1 ? spans[1].innerText.trim() : '';
+        }
+      get_content_type: |
+        () => {
+          const items = document.querySelectorAll('.activity-list-item');
+          if (items.length > 0) {
+            const spans = items[0].querySelectorAll('.activityStatus span');
+            if (spans.length > 0) return spans[0].innerText.trim();
+          }
+          return 'unknown';
+        }
+
+  content_page:
+    elements:
+      pptx_iframe: 'iframe.pptIframe'
+      video: 'video'
+      dialog: '.el-overlay-dialog, .el-dialog, [role=dialog]'
+      pdf_viewer_container: '#viewerContainer'
+      pdf_viewer: '#viewer'
+      pdf_viewer_class: '.pdfViewer'
+      pdf_iframe_patterns: ["pdfv-resource", "pdf-viewer", "viewer.html"]
+    groups:
+      pptx_next_button:
+        - '.next-btn'
+        - '.nextPage'
+        - '.page-next'
+        - "button:has-text('下一页')"
+        - "button:has-text('下一张')"
+        - '[aria-label="下一页"]'
+        - '[aria-label="下一张"]'
+        - '.ppt-next'
+        - '#nextPage'
+        - '[class*="next"]'
+        - "svg[class*='next']"
+        - "img[class*='next']"
+        - '.icon-arrow-right'
+        - '.right-arrow'
+      pptx_page_number:
+        - '.page-num'
+        - '.pageNumber'
+        - '.current-page'
+        - '.pageIndex'
+        - '.btnWrap'
+        - '[class*="pageNum"]'
+        - '[class*="currentPage"]'
+      pptx_area:
+        - '.previewBox'
+        - '.videoBox'
+        - '.pptContainer'
+        - 'body'
+      scroll_container:
+        - '.el-scrollbar.page-scroll'
+        - '.el-scrollbar.main-warp'
+        - '.el-scrollbar.app-warp'
+        - '.el-scrollbar__wrap'
+        - '.main-scrollview'
+        - '.row-table'
+        - '.contentBody'
+        - '.pdfViewer'
+        - '#pdf-viewer'
+        - '[class*="scroll"]'
+        - '.el-scrollbar__view'
+      play_button:
+        - '.video-play-btn'
+        - '.play-button'
+        - "button:has-text('播放')"
+        - '[class*=play]'
+        - "button:has-text('开始')"
+      continue_button:
+        - "button:has-text('继续练习')"
+        - "button:has-text('开始练习')"
+        - "button:has-text('继续学习')"
+        - "button.el-button--gradient"
+      dialog_button:
+        - '.el-overlay-dialog button.el-button--primary'
+        - '.el-dialog button.el-button--primary'
+        - "button:has-text('确定')"
+        - "button:has-text('开始')"
+      question_title:
+        - '.question-title'
+        - '.question-content'
+        - '.el-form-item__label'
+        - '[class*="question"]'
+        - '.subject'
+        - '.topic'
+        - '.title'
+      option_item:
+        - '.el-radio'
+        - '.el-checkbox'
+        - '.option-item'
+        - '.choice-item'
+        - '[class*="option"]'
+        - '.select-item'
+      action_button:
+        - "button:has-text('选完了')"
+        - "button:has-text('下一题')"
+        - "button:has-text('交卷')"
+        - "div.CloseBtn"
+        - "div:has-text('交卷')"
+        - "button:has-text('提交')"
+        - "button:has-text('确定')"
+        - '.next-btn'
+        - '.submit-btn'
+      confirm_dialog:
+        - '.el-message-box__btns .el-button--primary'
+        - '.el-button--primary'
+        - "button:has-text('确定')"
+        - "button:has-text('确认')"
+        - "button:has-text('是')"
+      close_button:
+        - "button:has-text('关闭')"
+        - "button:has-text('知道了')"
+        - "button:has-text('确定')"
+      start_resource_button:
+        - "button:has-text('开始学习')"
+        - "button:has-text('进入')"
+        - "button:has-text('开始')"
+        - "button:has-text('答题')"
+        - ".start-btn"
+    scripts:
+      list_frames: |
+        () => Array.from(document.querySelectorAll('iframe')).map(f => ({
+          cls: f.className, src: (f.src || '').substring(0, 120)
+        }))
+      pdf_viewer_ready: |
+        () => !!(document.querySelector('#viewerContainer') || document.querySelector('#viewer') || document.querySelector('.pdfViewer'))
+      pdf_viewer_info: |
+        () => {
+          const vc = document.querySelector('#viewerContainer') || document.querySelector('#viewer') || document.querySelector('.pdfViewer');
+          if (!vc) return { error: 'no viewer' };
+          return { scrollHeight: vc.scrollHeight || 0, clientHeight: vc.clientHeight || vc.parentElement?.clientHeight || 0 };
+        }
+      pdf_scroll_to: |
+        (st) => {
+          const vc = document.querySelector('#viewerContainer') || document.querySelector('#viewer') || document.querySelector('.pdfViewer');
+          if (vc) { vc.scrollTop = st; vc.dispatchEvent(new Event('scroll', {bubbles: true})); }
+        }
+      adaptive_iframe_info: |
+        () => {
+          const radios = document.querySelectorAll('.el-radio');
+          const checks = document.querySelectorAll('.el-checkbox');
+          const options = radios.length > 0 ? radios : checks;
+          const optTexts = Array.from(options).slice(0, 10).map(o => (o.innerText || '').trim());
+          let question = '';
+          const qEl = document.querySelector('[class*="question"], .el-form-item__label, .subject, .topic');
+          if (qEl) question = qEl.innerText.trim();
+          const btns = document.querySelectorAll('button, div.CloseBtn, div.text');
+          let nextBtn = null, submitBtn = null, doneBtn = null;
+          btns.forEach(b => {
+            const t = b.innerText.trim();
+            if (t.includes('选完了')) doneBtn = t;
+            if (t.includes('下一题')) nextBtn = t;
+            if (t.includes('交卷')) submitBtn = t;
+          });
+          return {
+            optCount: options.length, optTexts, question: question.substring(0, 200),
+            hasNext: !!nextBtn, hasSubmit: !!submitBtn, hasDone: !!doneBtn,
+            nextText: nextBtn, submitText: submitBtn, doneText: doneBtn
+          };
+        }
