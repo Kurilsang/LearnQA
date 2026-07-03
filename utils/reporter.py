@@ -2,6 +2,18 @@ import os
 from datetime import datetime
 
 
+AI_SECTION_TEMPLATE = """
+<div class="ai-analysis">
+<div class="ai-header" onclick="const b=this.nextElementSibling;b.style.display=b.style.display==='none'?'':'none'">
+<span class="ai-icon">AI</span>
+<span class="ai-title">AI 智能分析报告</span>
+<span class="ai-toggle">收起</span>
+</div>
+<div class="ai-body">
+{content}
+</div>
+</div>"""
+
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -22,6 +34,22 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans
 .summary-item.fail .num {{ color: #ff4d4f; }}
 .summary-item.skip .num {{ color: #faad14; }}
 .summary-item.total .num {{ color: #667eea; }}
+.ai-analysis {{ background: #fff; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; border: 1px solid #e8e8e8; }}
+.ai-header {{ background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #e0e0e0; padding: 16px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; user-select: none; }}
+.ai-header:hover {{ opacity: 0.95; }}
+.ai-icon {{ background: #0f3460; color: #e94560; font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 6px; letter-spacing: 1px; }}
+.ai-title {{ font-size: 16px; font-weight: 600; color: #fff; flex: 1; }}
+.ai-toggle {{ font-size: 12px; color: #888; }}
+.ai-body {{ padding: 20px; line-height: 1.8; font-size: 14px; }}
+.ai-body h3 {{ font-size: 15px; color: #1a1a2e; margin: 16px 0 8px; padding-left: 12px; border-left: 3px solid #667eea; }}
+.ai-body h3:first-child {{ margin-top: 0; }}
+.ai-body p {{ margin: 6px 0; color: #444; }}
+.ai-body ul {{ margin: 6px 0 6px 20px; color: #555; }}
+.ai-body li {{ margin: 4px 0; }}
+.ai-body .highlight {{ background: #f0f5ff; border-left: 3px solid #667eea; padding: 10px 16px; margin: 10px 0; border-radius: 4px; font-size: 13px; }}
+.ai-body .risk-low {{ color: #52c41a; font-weight: 600; }}
+.ai-body .risk-mid {{ color: #faad14; font-weight: 600; }}
+.ai-body .risk-high {{ color: #ff4d4f; font-weight: 600; }}
 .test-suite {{ background: #fff; border-radius: 10px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; }}
 .suite-header {{ padding: 16px 20px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f0f0f0; }}
 .suite-header:hover {{ background: #fafafa; }}
@@ -67,6 +95,7 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans
 <div class="summary-item fail"><div class="num">{failed}</div><div class="label">失败</div></div>
 <div class="summary-item skip"><div class="num">{skipped}</div><div class="label">跳过</div></div>
 </div>
+{ai_section}
 {suites}
 <div class="footer">报告生成时间: {report_time}</div>
 </body>
@@ -76,12 +105,16 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans
 class TestReport:
     def __init__(self):
         self.suites = []
+        self.ai_analysis = ""
         self.start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def add_suite(self, suite_name: str):
         suite = TestSuite(suite_name)
         self.suites.append(suite)
         return suite
+
+    def set_ai_analysis(self, analysis: str):
+        self.ai_analysis = analysis
 
     def generate(self, report_dir: str, title: str = "UI自动化测试报告") -> str:
         total = sum(s.total for s in self.suites)
@@ -91,6 +124,15 @@ class TestReport:
 
         suites_html = "\n".join(s.to_html() for s in self.suites)
 
+        ai_html = ""
+        if self.ai_analysis:
+            content = self.ai_analysis.replace("\n", "<br>")
+            content = content.replace("### ", "<h3>").replace("\n\n", "</p><p>").replace("<br><br>", "</p><p>")
+            content = content.replace("<h3>", "</p><h3>")
+            content = f"<p>{content}</p>"
+            content = content.replace("</p><p>", "\n")
+            ai_html = AI_SECTION_TEMPLATE.format(content=content)
+
         html = HTML_TEMPLATE.format(
             title=title,
             start_time=self.start_time,
@@ -99,6 +141,7 @@ class TestReport:
             passed=passed,
             failed=failed,
             skipped=skipped,
+            ai_section=ai_html,
             suites=suites_html,
             report_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         )

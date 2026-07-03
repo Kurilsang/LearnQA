@@ -47,11 +47,76 @@ class TestRunner:
         suite = report.add_suite("异常捕获测试")
         await self._test_error_capture(suite)
 
+        logger.info("\n正在生成 AI 智能分析报告...")
+        analysis = await self._ai_analyze_results()
+        if analysis:
+            report.set_ai_analysis(analysis)
+            logger.info("AI 分析完成")
+        else:
+            logger.warn("AI 分析不可用（未配置 API Key）")
+
         report_path = report.generate(config.REPORT_DIR)
         logger.info(f"\n测试报告已生成: {report_path}")
         logger.info(f"总计: {self.results['passed'] + self.results['failed'] + self.results['skipped']} | "
                     f"通过: {self.results['passed']} | 失败: {self.results['failed']} | 跳过: {self.results['skipped']}")
         return self.results
+
+    async def _ai_analyze_results(self) -> str:
+        if not config.AI_API_KEY:
+            return ""
+        suite_summaries = []
+        for s in report.suites:
+            failures = [c for c in s.cases if c["status"] == "FAIL"]
+            fail_detail = ""
+            if failures:
+                fail_detail = "。失败用例: " + "; ".join(
+                    f"{f['name']}({f['error'][:100]})" for f in failures
+                )
+            suite_summaries.append(
+                f"  - {s.name}: {s.passed}/{s.total} 通过{fail_detail}"
+            )
+
+        prompt = (
+            "你是一个专业的 QA 测试分析师。请根据以下 UI 自动化测试结果，生成一份简洁的智能分析报告。\n\n"
+            "【测试结果】\n"
+            f"总用例: {self.results['passed'] + self.results['failed'] + self.results['skipped']}\n"
+            f"通过: {self.results['passed']}\n"
+            f"失败: {self.results['failed']}\n"
+            f"跳过: {self.results['skipped']}\n"
+            "【各模块详情】\n" + "\n".join(suite_summaries) + "\n\n"
+            "请按以下格式输出（使用 Markdown）：\n"
+            "### 测试执行概况\n"
+            "简要总结整体测试情况。\n"
+            "### 失败根因分析\n"
+            "分析每条失败原因及其可能影响。\n"
+            "### 风险评估\n"
+            "用 低/中/高 三级评估系统整体风险，说明理由。\n"
+            "### 优化建议\n"
+            "给出具体可操作的测试或代码改进建议。"
+        )
+        try:
+            import httpx
+            timeout = httpx.Timeout(30.0)
+            async with httpx.AsyncClient(timeout=timeout) as client:
+                resp = await client.post(
+                    f"{config.AI_API_BASE.rstrip('/')}/chat/completions",
+                    headers={"Authorization": f"Bearer {config.AI_API_KEY}", "Content-Type": "application/json"},
+                    json={
+                        "model": config.AI_MODEL,
+                        "temperature": config.AI_TEMPERATURE,
+                        "messages": [
+                            {"role": "system", "content": "你是一个专业的 QA 测试分析师。用中文输出，简洁专业，突出重点。"},
+                            {"role": "user", "content": prompt}
+                        ]
+                    },
+                )
+                result = resp.json()
+                return result["choices"][0]["message"]["content"].strip()
+        except ImportError:
+            logger.warn("未安装 httpx，跳过 AI 分析")
+        except Exception as e:
+            logger.warn(f"AI 分析调用失败: {e}")
+        return ""
 
     async def _run_test(self, suite: TestSuite, name: str, coro, screenshot_page=None):
         start = time.time()
