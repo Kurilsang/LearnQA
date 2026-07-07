@@ -10,12 +10,13 @@ import sys
 import time
 from datetime import datetime
 
-from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
+from playwright.async_api import TimeoutError as PlaywrightTimeout
 
 from config import config
 from pages.login_page import LoginPage
 from pages.course_page import CoursePage
 from pages.content_page import ContentPage
+from services.browser_service import BrowserService
 from utils.logger import TestLogger
 from utils.reporter import TestReport, TestSuite
 
@@ -140,10 +141,9 @@ class TestRunner:
             self.results["failed"] += 1
 
     async def _test_login_flow(self, suite):
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=config.HEADLESS, args=["--disable-blink-features=AutomationControlled"])
-            context = await browser.new_context(viewport={"width": 1920, "height": 1080})
-            page = await context.new_page()
+        playwright = browser = None
+        try:
+            playwright, browser, context, page = await BrowserService.launch()
             login = LoginPage(page, site_config)
 
             async def test_page_load():
@@ -172,13 +172,13 @@ class TestRunner:
             await self._run_test(suite, "登录元素完整性", test_elements(), page)
             await self._run_test(suite, "账号输入功能", test_fill(), page)
             await self._run_test(suite, "完整登录流程", test_full_login(), page)
-            await browser.close()
+        finally:
+            await BrowserService.close(browser, playwright)
 
     async def _test_course_navigation(self, suite):
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=config.HEADLESS, args=["--disable-blink-features=AutomationControlled"])
-            context = await browser.new_context(viewport={"width": 1920, "height": 1080})
-            page = await context.new_page()
+        playwright = browser = None
+        try:
+            playwright, browser, context, page = await BrowserService.launch()
             login = LoginPage(page, site_config)
             course = CoursePage(page, site_config)
 
@@ -187,7 +187,6 @@ class TestRunner:
             if not ok:
                 suite.add_case("前置登录", "SKIP", 0, error="登录失败，跳过课程导航测试")
                 self.results["skipped"] += 1
-                await browser.close()
                 return
 
             async def test_page_load():
@@ -219,13 +218,13 @@ class TestRunner:
             await self._run_test(suite, "章节展开功能", test_chapter_expand(), page)
             await self._run_test(suite, "章节列表扫描", test_chapter_scan(), page)
             await self._run_test(suite, "资源列表展示", test_resource_list(), page)
-            await browser.close()
+        finally:
+            await BrowserService.close(browser, playwright)
 
     async def _test_content_playback(self, suite):
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=config.HEADLESS, args=["--disable-blink-features=AutomationControlled"])
-            context = await browser.new_context(viewport={"width": 1920, "height": 1080})
-            page = await context.new_page()
+        playwright = browser = None
+        try:
+            playwright, browser, context, page = await BrowserService.launch()
             login = LoginPage(page, site_config)
             course = CoursePage(page, site_config)
             content = ContentPage(page, site_config)
@@ -235,7 +234,6 @@ class TestRunner:
             if not ok:
                 suite.add_case("前置登录", "SKIP", 0, error="登录失败，跳过内容播放测试")
                 self.results["skipped"] += 1
-                await browser.close()
                 return
 
             await course.navigate(config.COURSE_URL)
@@ -246,7 +244,6 @@ class TestRunner:
             if not leaves:
                 suite.add_case("前置导航", "SKIP", 0, error="无可用叶子章节")
                 self.results["skipped"] += 1
-                await browser.close()
                 return
 
             await course.click_chapter(leaves[0])
@@ -254,7 +251,6 @@ class TestRunner:
             if not resources:
                 suite.add_case("前置导航", "SKIP", 0, error="无可用资源")
                 self.results["skipped"] += 1
-                await browser.close()
                 return
 
             async def test_pptx():
@@ -294,13 +290,13 @@ class TestRunner:
             await self._run_test(suite, "HTML/PDF 滚动处理", test_html_pdf(), page)
             await self._run_test(suite, "视频播放处理", test_video(), page)
             await self._run_test(suite, "资源完成状态追踪", test_resource_finish(), page)
-            await browser.close()
+        finally:
+            await BrowserService.close(browser, playwright)
 
     async def _test_error_capture(self, suite):
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=config.HEADLESS, args=["--disable-blink-features=AutomationControlled"])
-            context = await browser.new_context(viewport={"width": 1920, "height": 1080})
-            page = await context.new_page()
+        playwright = browser = None
+        try:
+            playwright, browser, context, page = await BrowserService.launch()
             login = LoginPage(page, site_config)
             course = CoursePage(page, site_config)
             errors = []
@@ -334,7 +330,8 @@ class TestRunner:
             await self._run_test(suite, "页面控制台异常捕获", test_console_error(), page)
             await self._run_test(suite, "接口异常捕获", test_api_error(), page)
             await self._run_test(suite, "超时处理机制", test_timeout_handling(), page)
-            await browser.close()
+        finally:
+            await BrowserService.close(browser, playwright)
 
 
 def main():
