@@ -31,16 +31,30 @@ class LoginPage(BasePage):
         await btn.click()
 
     async def wait_for_login_success(self, course_url: str, timeout: int = 30) -> bool:
-        for i in range(timeout):
-            await asyncio.sleep(1)
-            current = self.page.url
-            path = current.split("?")[0].lower()
-            if "login" not in path:
-                return True
+        try:
+            await self.page.wait_for_url(
+                lambda url: "login" not in url.lower().split("?")[0],
+                timeout=timeout * 1000,
+            )
+            await self.page.wait_for_load_state("networkidle", timeout=15000)
+            await asyncio.sleep(2)
+        except Exception:
+            err = await self.get_login_error()
+            if err:
+                self.page.evaluate(f"console.error('登录失败: {err}')")
+                return False
+
         await self.page.goto(course_url, wait_until="networkidle", timeout=30000)
         await asyncio.sleep(5)
-        text = await self.page.evaluate("document.body.innerText.substring(0, 300)")
-        return any(kw in text for kw in ("课程", "学习", "章节", "自适应"))
+        try:
+            await self.page.wait_for_selector(
+                ".index-tree-node, .aside-row, .activity-list-item",
+                timeout=10000,
+            )
+            return True
+        except Exception:
+            text = await self.page.evaluate("document.body.innerText.substring(0, 300)")
+            return any(kw in text for kw in ("课程", "学习", "章节", "自适应"))
 
     async def get_login_error(self) -> str:
         error = self.el("error_selector").first
