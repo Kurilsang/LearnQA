@@ -10,6 +10,10 @@ from pages.login_page import LoginPage
 from pages.course_page import CoursePage
 from pages.content_page import ContentPage
 from utils.logger import TestLogger
+from core.api_client import ApiClient
+from apis.auth_api import AuthAPI
+from apis.course_api import CourseAPI
+from apis.content_api import ContentAPI
 
 site_config = config.SITE_CONFIG
 
@@ -72,3 +76,27 @@ async def authenticated_page(browser_page, login_page):
     assert success, "登录失败，无法继续后续测试"
     logger.assertion("用户登录", success)
     return browser_page
+
+
+@pytest_asyncio.fixture(scope="session")
+async def api_client():
+    base_url = site_config.get_api_base_url()
+    client = ApiClient(base_url=base_url, timeout=30.0, max_retries=2, logger=logger)
+    await client.start()
+    yield client
+    await client.stop()
+
+
+@pytest_asyncio.fixture(scope="function")
+async def auth_api(api_client):
+    return AuthAPI(api_client, site_config)
+
+
+@pytest_asyncio.fixture(scope="function")
+async def course_api(api_client):
+    return CourseAPI(api_client, site_config)
+
+
+@pytest_asyncio.fixture(scope="function")
+async def content_api(api_client):
+    return ContentAPI(api_client, site_config)
