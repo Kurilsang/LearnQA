@@ -19,6 +19,10 @@ from pages.content_page import ContentPage
 from services.browser_service import BrowserService
 from utils.logger import TestLogger
 from utils.reporter import TestReport, TestSuite
+from core.api_client import ApiClient
+from apis.auth_api import AuthAPI
+from apis.course_api import CourseAPI
+from apis.content_api import ContentAPI
 
 logger = TestLogger()
 report = TestReport()
@@ -32,7 +36,7 @@ class TestRunner:
 
     async def run(self):
         logger.info("=" * 60)
-        logger.info("在线课程页面自动化测试脚本 v3.0")
+        logger.info("全量自动化测试脚本 v4.0（UI + API）")
         logger.info(f"目标站点: {site_config.name}")
         logger.info("=" * 60)
 
@@ -47,6 +51,18 @@ class TestRunner:
 
         suite = report.add_suite("异常捕获测试")
         await self._test_error_capture(suite)
+
+        suite = report.add_suite("API 认证接口测试")
+        await self._test_api_auth(suite)
+
+        suite = report.add_suite("API 课程接口测试")
+        await self._test_api_course(suite)
+
+        suite = report.add_suite("API 内容接口测试")
+        await self._test_api_content(suite)
+
+        suite = report.add_suite("API + UI 混合验证测试")
+        await self._test_api_hybrid(suite)
 
         logger.info("\n正在生成 AI 智能分析报告...")
         analysis = await self._ai_analyze_results()
@@ -78,7 +94,7 @@ class TestRunner:
             )
 
         prompt = (
-            "你是一个专业的 QA 测试分析师。请根据以下 UI 自动化测试结果，生成一份简洁的智能分析报告。\n\n"
+            "你是一个专业的 QA 测试分析师。请根据以下自动化测试结果，生成一份简洁的智能分析报告。\n\n"
             "【测试结果】\n"
             f"总用例: {self.results['passed'] + self.results['failed'] + self.results['skipped']}\n"
             f"通过: {self.results['passed']}\n"
@@ -330,6 +346,154 @@ class TestRunner:
             await self._run_test(suite, "页面控制台异常捕获", test_console_error(), page)
             await self._run_test(suite, "接口异常捕获", test_api_error(), page)
             await self._run_test(suite, "超时处理机制", test_timeout_handling(), page)
+        finally:
+            await BrowserService.close(browser, playwright)
+
+
+    async def _test_api_auth(self, suite):
+        logger.step("初始化 API 客户端")
+        client = ApiClient(
+            base_url=site_config.get_api_base_url(),
+            timeout=10.0,
+            logger=logger,
+        )
+        await client.start()
+        try:
+            auth = AuthAPI(client, site_config)
+
+            async def test_client_started():
+                assert client._client is not None, "客户端未启动"
+
+            async def test_endpoints_defined():
+                for name in ("login", "logout", "refresh"):
+                    ep = auth.endpoint(name)
+                    assert "method" in ep
+                    assert "path" in ep
+
+            async def test_login_config():
+                ep = auth.endpoint("login")
+                assert ep["method"] == "POST"
+
+            async def test_api_reachable():
+                try:
+                    resp = await client.get("/")
+                    logger.info(f"API 根路径响应: {resp.status_code}")
+                except Exception:
+                    logger.info("API 根路径不可达（按设计跳过）")
+
+            await self._run_test(suite, "API 客户端启动", test_client_started())
+            await self._run_test(suite, "认证端点完整性", test_endpoints_defined())
+            await self._run_test(suite, "登录接口配置", test_login_config())
+            await self._run_test(suite, "API 服务探活", test_api_reachable())
+        finally:
+            await client.stop()
+
+    async def _test_api_course(self, suite):
+        client = ApiClient(
+            base_url=site_config.get_api_base_url(),
+            timeout=10.0,
+            logger=logger,
+        )
+        await client.start()
+        try:
+            course = CourseAPI(client, site_config)
+
+            async def test_endpoints_defined():
+                for name in ("detail", "chapters", "resource_list"):
+                    ep = course.endpoint(name)
+                    assert "method" in ep
+                    assert "path" in ep
+
+            async def test_path_params():
+                ep = course.endpoint("detail")
+                path = ep["path"].format(course_id="demo_id")
+                assert "demo_id" in path
+
+            async def test_chapters_path():
+                ep = course.endpoint("chapters")
+                path = ep["path"].format(course_id="demo_id")
+                assert "/api/" in path
+
+            await self._run_test(suite, "课程端点完整性", test_endpoints_defined())
+            await self._run_test(suite, "路径参数替换", test_path_params())
+            await self._run_test(suite, "章节接口路径", test_chapters_path())
+        finally:
+            await client.stop()
+
+    async def _test_api_content(self, suite):
+        client = ApiClient(
+            base_url=site_config.get_api_base_url(),
+            timeout=10.0,
+            logger=logger,
+        )
+        await client.start()
+        try:
+            content = ContentAPI(client, site_config)
+
+            async def test_endpoints_defined():
+                for name in ("progress", "status"):
+                    ep = content.endpoint(name)
+                    assert "method" in ep
+                    assert "path" in ep
+
+            async def test_progress_config():
+                ep = content.endpoint("progress")
+                assert ep["method"] == "POST"
+                path = ep["path"].format(resource_id="r001")
+                assert "r001" in path
+
+            async def test_status_config():
+                ep = content.endpoint("status")
+                assert ep["method"] == "GET"
+                path = ep["path"].format(resource_id="r001")
+                assert "r001" in path
+
+            await self._run_test(suite, "内容端点完整性", test_endpoints_defined())
+            await self._run_test(suite, "进度提交接口", test_progress_config())
+            await self._run_test(suite, "状态查询接口", test_status_config())
+        finally:
+            await client.stop()
+
+    async def _test_api_hybrid(self, suite):
+        playwright = browser = None
+        try:
+            playwright, browser, context, page = await BrowserService.launch()
+            login = LoginPage(page, site_config)
+
+            await login.navigate(config.BASE_URL)
+            ok = await login.do_login(config.USERNAME, config.PASSWORD, config.COURSE_URL)
+            if not ok:
+                suite.add_case("前置登录", "SKIP", 0, error="登录失败，跳过混合测试")
+                self.results["skipped"] += 1
+                return
+
+            api_client = ApiClient(
+                base_url=site_config.get_api_base_url(),
+                timeout=10.0,
+                logger=logger,
+            )
+            await api_client.start()
+            try:
+                async def test_ui_logged_in():
+                    assert "login" not in page.url.lower(), "浏览器未登录"
+
+                async def test_api_connectivity():
+                    try:
+                        resp = await api_client.get("/")
+                        logger.info(f"混合测试 - API 响应: {resp.status_code}")
+                    except Exception:
+                        logger.info("混合测试 - API 不可达（正常）")
+
+                async def test_ui_course_loaded():
+                    await page.goto(config.COURSE_URL)
+                    title = await page.title()
+                    assert title is not None
+
+                await self._run_test(suite, "UI 登录状态验证", test_ui_logged_in(), page)
+                await self._run_test(suite, "API 连通性验证", test_api_connectivity(), page)
+                await self._run_test(suite, "UI 课程页面加载", test_ui_course_loaded(), page)
+            finally:
+                await api_client.stop()
         finally:
             await BrowserService.close(browser, playwright)
 

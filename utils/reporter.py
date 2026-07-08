@@ -116,7 +116,7 @@ class TestReport:
     def set_ai_analysis(self, analysis: str):
         self.ai_analysis = analysis
 
-    def generate(self, report_dir: str, title: str = "UI自动化测试报告") -> str:
+    def generate(self, report_dir: str, title: str = "自动化测试报告") -> str:
         total = sum(s.total for s in self.suites)
         passed = sum(s.passed for s in self.suites)
         failed = sum(s.failed for s in self.suites)
