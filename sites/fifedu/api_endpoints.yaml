@@ -1,0 +1,35 @@
+site:
+  name: "FIF教育平台"
+  domain: "fifedu.com"
+
+base_url: "https://icourse.fifedu.com/istp-learning-center"
+
+auth:
+  login:
+    method: POST
+    path: "/api/login"
+  logout:
+    method: POST
+    path: "/api/logout"
+  refresh:
+    method: POST
+    path: "/api/token/refresh"
+
+course:
+  detail:
+    method: GET
+    path: "/api/course/{course_id}"
+  chapters:
+    method: GET
+    path: "/api/course/{course_id}/chapters"
+  resource_list:
+    method: GET
+    path: "/api/course/{course_id}/chapter/{chapter_id}/resources"
+
+content:
+  progress:
+    method: POST
+    path: "/api/resource/{resource_id}/progress"
+  status:
+    method: GET
+    path: "/api/resource/{resource_id}/status"

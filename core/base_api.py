@@ -1,7 +1,4 @@
-import os
 from typing import Optional
-
-import yaml
 
 from core.api_client import ApiClient, ApiResponse
 
@@ -10,7 +7,6 @@ class BaseApi:
     def __init__(self, client: ApiClient, site_config):
         self.client = client
         self.site = site_config
-        self._endpoints = self._load_endpoints()
 
     @property
     def api_key(self) -> str:
@@ -24,15 +20,8 @@ class BaseApi:
             parts.append(c.lower())
         return "".join(parts)
 
-    def _load_endpoints(self) -> dict:
-        path = os.path.join(self.site.site_dir, "api_endpoints.yaml")
-        if not os.path.exists(path):
-            return {}
-        with open(path, encoding="utf-8") as f:
-            return yaml.safe_load(f) or {}
-
     def endpoint(self, name: str) -> dict:
-        ep = self._endpoints.get(self.api_key, {}).get(name)
+        ep = self.site.get_api_endpoint(self.api_key, name)
         if ep is None:
             raise KeyError(f"端点 '{name}' 未定义（{self.api_key}）")
         return ep

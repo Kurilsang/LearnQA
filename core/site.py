@@ -7,6 +7,7 @@ class SiteConfig:
     def __init__(self, site_dir: str):
         self.site_dir = site_dir
         self._selectors = self._load_yaml("selectors.yaml") or {}
+        self._api_endpoints = self._load_yaml("api_endpoints.yaml") or {}
 
     def _load_yaml(self, filename: str) -> Optional[dict]:
         path = os.path.join(self.site_dir, filename)
@@ -56,4 +57,13 @@ class SiteConfig:
             self._selectors.get("pages", {})
             .get(page_name, {})
             .get("url")
+        )
+
+    def get_api_base_url(self) -> str:
+        return self._api_endpoints.get("base_url", "")
+
+    def get_api_endpoint(self, api_name: str, endpoint_name: str) -> Optional[dict]:
+        return (
+            self._api_endpoints.get(api_name, {})
+            .get(endpoint_name)
         )
